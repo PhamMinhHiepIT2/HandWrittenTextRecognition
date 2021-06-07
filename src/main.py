@@ -164,8 +164,7 @@ def add_argument():
                         type=int, default=100)
     parser.add_argument(
         '--data_dir', help='Directory containing IAM dataset.', type=Path, required=False)
-    parser.add_argument(
-        '--fast', help='Load samples from LMDB.', action='store_true')
+
     parser.add_argument(
         '--line_mode', help='Train to read text lines instead of single words.', action='store_true')
     parser.add_argument('--img_file', help='Image used for inference.',
@@ -205,7 +204,7 @@ def main():
     # train or validate on IAM dataset
     if args.mode in ['train', 'validate']:
         # load training data, create TF model
-        loader = DataLoaderIAM(args.data_dir, args.batch_size, fast=args.fast)
+        loader = DataLoaderIAM(args.data_dir, args.batch_size)
         char_list = loader.char_list
 
         # when in line mode, take care to have a whitespace in the char list

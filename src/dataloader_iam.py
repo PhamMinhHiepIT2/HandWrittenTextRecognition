@@ -1,10 +1,8 @@
-import pickle
 import random
 from collections import namedtuple
 from typing import Tuple
 
 import cv2
-import lmdb
 import numpy as np
 from path import Path
 
@@ -31,15 +29,10 @@ class DataLoaderIAM:
     def __init__(self,
                  data_dir: Path,
                  batch_size: int,
-                 data_split: float = 0.95,
-                 fast: bool = True) -> None:
+                 data_split: float = 0.95) -> None:
         """Loader for dataset."""
 
         assert data_dir.exists()
-
-        self.fast = fast
-        if fast:
-            self.env = lmdb.open(str(data_dir / 'lmdb'), readonly=True)
 
         self.data_augmentation = False
         self.curr_idx = 0
@@ -122,13 +115,8 @@ class DataLoaderIAM:
             return self.curr_idx < len(self.samples)  # val set: allow last batch to be smaller
 
     def _get_img(self, i: int) -> np.ndarray:
-        if self.fast:
-            with self.env.begin() as txn:
-                basename = Path(self.samples[i].file_path).basename()
-                data = txn.get(basename.encode("ascii"))
-                img = pickle.loads(data)
-        else:
-            img = cv2.imread(self.samples[i].file_path, cv2.IMREAD_GRAYSCALE)
+       
+        img = cv2.imread(self.samples[i].file_path, cv2.IMREAD_GRAYSCALE)
 
         return img
 
