@@ -1,5 +1,4 @@
 import random
-from collections import namedtuple
 from typing import Tuple
 
 import cv2
@@ -19,7 +18,7 @@ class Batch:
         self.gt_texts = gt_texts
         self.batch_size = batch_size
 
-        
+
 class DataLoaderIAM:
     """
     Loads data which corresponds to IAM format,
@@ -115,7 +114,7 @@ class DataLoaderIAM:
             return self.curr_idx < len(self.samples)  # val set: allow last batch to be smaller
 
     def _get_img(self, i: int) -> np.ndarray:
-       
+
         img = cv2.imread(self.samples[i].file_path, cv2.IMREAD_GRAYSCALE)
 
         return img

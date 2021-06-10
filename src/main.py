@@ -186,12 +186,10 @@ def predict(image: UploadFile = File(...)):
     filename = image.filename
     path = pathlib.Path(filename).resolve()
     abs_path = str(path)
-    print(abs_path)
-    img = cv2.imread(abs_path)
     model = Model(list(open(FilePaths.fn_char_list).read()),
                   decoder_type, must_restore=True, dump=False)
     pred = infer(model, abs_path)
-   
+
     return pred
 
 

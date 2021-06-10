@@ -163,6 +163,7 @@ class Preprocessor:
 
         # convert to range [-1, 1]
         img = img / 255 - 0.5
+        print(img.shape)
         return img
 
     def process_batch(self, batch: Batch) -> Batch:
